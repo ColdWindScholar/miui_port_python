@@ -15,6 +15,7 @@ from log import Error, Yellow, Green
 import os
 import utils
 import downloader
+import shutil
 
 LOCAL = os.getcwd()
 BASEROM = sys.argv[1]
@@ -70,3 +71,23 @@ else:
 Yellow("正在检测ROM包")
 if not utils.is_file_in_zip(BASEROM, 'payload.bin'): Error("底包没有payload.bin，请用MIUI官方包作为底包")
 if not utils.is_file_in_zip(PORTROM, 'payload.bin'): Error("目标移植包没有payload.bin，请用MIUI官方包作为底包")
+Green("ROM初步检测通过")
+Yellow("正在清理文件")
+for i in PORT_PARTITION:
+    if os.path.isdir(os.path.join(LOCAL, i)):
+        try:
+            shutil.rmtree(os.path.join(LOCAL, i))
+        except:
+            pass
+for i in ['app', 'config', 'BASEROM', 'PORTROM']:
+    if os.path.isdir(os.path.join(LOCAL, i)):
+        try:
+            shutil.rmtree(os.path.join(LOCAL, i))
+        except:
+            pass
+    elif os.path.isfile(os.path.join(LOCAL, i)):
+        try:
+            os.remove(os.path.join(LOCAL, i))
+        except:
+            pass
+

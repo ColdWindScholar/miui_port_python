@@ -1,15 +1,3 @@
-Green "ROM初步检测通过"
-
-
-# 清理文件
-Yellow "正在清理文件"
-for i in ${PORT_PARTITION};do
-    [ -d ./${i} ] && rm -rf ./${i}
-done
-rm -rf app
-rm -rf config
-rm -rf BASEROM/
-rm -rf PORTROM/
 find . -type d -name 'PORT_*' |xargs rm -rf
 mkdir -p BASEROM/images/
 mkdir -p BASEROM/config/
