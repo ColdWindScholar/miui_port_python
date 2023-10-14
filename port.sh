@@ -1,27 +1,3 @@
-base_rom_code=$(cat BASEROM/images/vendor/build.prop |grep "ro.product.vendor.device")
-port_rom_code=$(cat BASEROM/images/system/system/build.prop |grep "ro.product.system.device")
-Green "机型代号: 底包为 [${base_rom_code}], 移植包为 [${port_rom_code}]"
-
-# 机型名称
-base_rom_marketname=$(cat BASEROM/images/vendor/build.prop |grep "ro.product.vendor.marketname")
-port_rom_marketname=$(cat BASEROM/images/system/system/build.prop |grep "ro.product.system.marketname")  # 这个很可能是空的
-Green "机型名称: 底包为 [${base_rom_marketname}], 移植包为 [${port_rom_marketname}]"
-
-# 修改ROM包
-
-# 去除avb校验
-Yellow "去除avb校验"
-for fstab in $(find BASEROM/images/ -type f -name "fstab.*");do
-    Yellow "Target: $fstab"
-    sed -i "s/,avb_keys=.*avbpubkey//g" $fstab
-    sed -i "s/,avb=vbmeta_system//g" $fstab
-    sed -i "s/,avb=vbmeta_vendor//g" $fstab
-    sed -i "s/,avb=vbmeta//g" $fstab
-    sed -i "s/,avb//g" $fstab
-done
-
-# data 加密
-remove_data_encrypt=$(grep "remove_data_encryption" bin/port_config |cut -d '=' -f 2)
 if [ "${remove_data_encrypt}" == "true" ];then
     Yellow "去除data加密"
     for fstab in $(find BASEROM/images/ -type f -name "fstab.*");do

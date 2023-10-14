@@ -1,5 +1,5 @@
 # miui_port project
-
+import re
 # Only For V-A/B Device
 
 # Based on Android 13
@@ -183,4 +183,23 @@ Green(f"ROM 版本: 底包为 [{base_rom_version}], 移植包为 [{port_rom_vers
 base_miui_version = getprop("ro.miui.ui.version.code", 'BASEROM/images/product_bak/etc/build.prop')
 port_miui_version = getprop("ro.miui.ui.version.code", 'BASEROM/images/product/etc/build.prop')
 Green(f"MIUI版本: 底包为 [{base_miui_version}], 移植包为 [{port_miui_version}]")
-
+base_rom_code = getprop("ro.product.vendor.device", 'BASEROM/images/vendor/build.prop')
+port_rom_code = getprop("ro.product.system.device", 'BASEROM/images/system/system/build.prop')
+Green(f"机型代号: 底包为 [{base_rom_code}], 移植包为 [{port_rom_code}]")
+base_rom_marketname = getprop("ro.product.vendor.marketname", 'BASEROM/images/vendor/build.prop')
+port_rom_marketname = getprop("ro.product.system.marketname", 'BASEROM/images/system/system/build.prop')  # 这个很可能是空的
+Green(f"机型名称: 底包为 [{base_rom_marketname}], 移植包为 [{port_rom_marketname}]")
+Yellow("去除avb校验")
+for root, dirs, files in os.walk('BASEROM/images/'):
+    for f in files:
+        if f.startswith('fstab.'):
+            with open(os.path.join(root, f), 'r') as f_:
+                data = f_.readlines()
+            with open(os.path.join(root, f), 'w', encoding='utf-8') as f_:
+                data = [re.sub(r',avb_keys=.*avbpubkey', '', i) for i in data]
+                data = [i.replace(',avb=vbmeta_system', '') for i in data]
+                data = [i.replace(',avb=vbmeta_vendor', '') for i in data]
+                data = [i.replace(',avb=vbmeta', '') for i in data]
+                data = [i.replace(',avb', '') for i in data]
+                f_.writelines(data)
+remove_data_encrypt = setting.get("remove_data_encryption")
