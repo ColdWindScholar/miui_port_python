@@ -1,4 +1,39 @@
+import os
+import subprocess
 import zipfile
+from os import getcwd
+import platform as plat
+
+elocal = getcwd()
+platform = plat.machine()
+ostype = plat.system()
+binner = elocal + os.sep + "bin"
+ebinner = binner + os.sep + ostype + os.sep + platform + os.sep
+
+
+def call(exe, kz='Y', out=0, shstate=False, sp=0):
+    if kz == "Y":
+        cmd = f'{ebinner}{exe}'
+    else:
+        cmd = exe
+    if os.name != 'posix':
+        conf = subprocess.CREATE_NO_WINDOW
+    else:
+        if sp == 0:
+            cmd = cmd.split()
+        conf = 0
+    try:
+        ret = subprocess.Popen(cmd, shell=shstate, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT, creationflags=conf)
+        for i in iter(ret.stdout.readline, b""):
+            if out == 0:
+                print(i.decode("utf-8", "ignore").strip())
+    except subprocess.CalledProcessError as e:
+        for i in iter(e.stdout.readline, b""):
+            if out == 0:
+                print(e.decode("utf-8", "ignore").strip())
+    ret.wait()
+    return ret.returncode
 
 
 class setting:
