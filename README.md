@@ -39,9 +39,9 @@
     git clone https://github.com/ColdWindScholar/miui_port_python
     cd miui_port_python
     # 安装依赖
-    sudo bash setup.sh
+    sudo python setup.sh
     # 开始移植
-    sudo bash port.py <底包路径> <移植包路径>
+    sudo python port.py <底包路径> <移植包路径>
 ```
 
 - 在Termux上
@@ -51,11 +51,11 @@
     pkg install git tsu -y
     # 克隆项目
     git clone https://github.com/ColdWindScholar/miui_port_python
-    cd miui_port/
+    cd miui_port_python/
     # 安装依赖
-    bash setup.sh
+    python setup.sh
     # 进入root模式
     tsu
-    bash port.py <底包路径> <移植包路径>
+    python port.py <底包路径> <移植包路径>
 ```
 - 上述代码中，底包路径和移植包路径可以替换为链接
