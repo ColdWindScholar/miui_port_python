@@ -5,3 +5,4 @@ def getprop(name, path):
                 continue
             if name in s:
                 return s.strip().split('=')[1]
+    return ''

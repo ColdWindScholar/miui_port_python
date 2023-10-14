@@ -180,3 +180,7 @@ Green(f"SDK 版本: 底包为 [SDK {base_android_sdk}], 移植包为 [SDK {port_
 base_rom_version = getprop("ro.vendor.build.version.incremental", 'BASEROM/images/vendor/build.prop')
 port_rom_version = getprop("ro.system.build.version.incremental", 'BASEROM/images/system/system/build.prop')
 Green(f"ROM 版本: 底包为 [{base_rom_version}], 移植包为 [{port_rom_version}]")
+base_miui_version = getprop("ro.miui.ui.version.code", 'BASEROM/images/product_bak/etc/build.prop')
+port_miui_version = getprop("ro.miui.ui.version.code", 'BASEROM/images/product/etc/build.prop')
+Green(f"MIUI版本: 底包为 [{base_miui_version}], 移植包为 [{port_miui_version}]")
+

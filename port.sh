@@ -1,17 +1,10 @@
-
-# MIUI版本
-base_miui_version=$(cat BASEROM/images/product_bak/etc/build.prop |grep "ro.miui.ui.version.code" |awk 'NR==1' |cut -d '=' -f 2)
-port_miui_version=$(cat BASEROM/images/product/etc/build.prop |grep "ro.miui.ui.version.code" |awk 'NR==1' |cut -d '=' -f 2)
-Green "MIUI版本: 底包为 [${base_miui_version}], 移植包为 [${port_miui_version}]"
-
-# 代号
-base_rom_code=$(cat BASEROM/images/vendor/build.prop |grep "ro.product.vendor.device" |awk 'NR==1' |cut -d '=' -f 2)
-port_rom_code=$(cat BASEROM/images/system/system/build.prop |grep "ro.product.system.device" |awk 'NR==1' |cut -d '=' -f 2)
+base_rom_code=$(cat BASEROM/images/vendor/build.prop |grep "ro.product.vendor.device")
+port_rom_code=$(cat BASEROM/images/system/system/build.prop |grep "ro.product.system.device")
 Green "机型代号: 底包为 [${base_rom_code}], 移植包为 [${port_rom_code}]"
 
 # 机型名称
-base_rom_marketname=$(cat BASEROM/images/vendor/build.prop |grep "ro.product.vendor.marketname" |awk 'NR==1' |cut -d '=' -f 2)
-port_rom_marketname=$(cat BASEROM/images/system/system/build.prop |grep "ro.product.system.marketname" |awk 'NR==1' |cut -d '=' -f 2)  # 这个很可能是空的
+base_rom_marketname=$(cat BASEROM/images/vendor/build.prop |grep "ro.product.vendor.marketname")
+port_rom_marketname=$(cat BASEROM/images/system/system/build.prop |grep "ro.product.system.marketname")  # 这个很可能是空的
 Green "机型名称: 底包为 [${base_rom_marketname}], 移植包为 [${port_rom_marketname}]"
 
 # 修改ROM包
