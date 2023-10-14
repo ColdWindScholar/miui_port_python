@@ -1,9 +1,3 @@
-Green "底包 [payload.bin] 提取完毕"
-Yellow "正在提取移植包 [payload.bin]"
-unzip ${PORTROM} payload.bin -d PORTROM ||Error "解压移植包 [payload.bin] 时出错"
-Green "移植包 [payload.bin] 提取完毕"
-
-Yellow "开始分解底包 [payload.bin]"
 payload-dumper-go -o BASEROM/images/ BASEROM/payload.bin >/dev/null 2>&1 ||Error "分解底包 [payload.bin] 时出错"
 
 

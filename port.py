@@ -105,3 +105,12 @@ try:
 except:
     Error("解压底包 [payload.bin] 时出错")
     sys.exit(1)
+Green("底包 [payload.bin] 提取完毕")
+Yellow("正在提取移植包 [payload.bin]")
+try:
+    utils.extra_payload(PORTROM, 'PORTROM')
+except:
+    Error("解压移植包 [payload.bin] 时出错")
+    sys.exit(1)
+Green("移植包 [payload.bin] 提取完毕")
+Yellow("开始分解底包 [payload.bin]")
