@@ -117,4 +117,11 @@ Yellow("开始分解底包 [payload.bin]")
 if utils.call("payload-dumper-go -o BASEROM/images/ BASEROM/payload.bin") != 0:
     Error("分解底包 [payload.bin] 时出错")
     sys.exit(1)
+payload_list = []
+for i in utils.returnoutput('payload-dumper-go -l PORTROM/payload.bin').split('\n')[6].split(','):
+    payload_list.append(i.split(' (')[0].replace(' ',''))
 for part in PORT_PARTITION:
+    if part in payload_list:
+        Yellow(f"底包 [{part}.img] 重命名为 [{part}_bak.img]")
+        shutil.move(f'BASEROM/images/{part}.img', f'BASEROM/images/{part}_bak.img')
+        Yellow(f"正在分解底包 [{part}_bak.img]")

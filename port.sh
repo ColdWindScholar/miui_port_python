@@ -1,9 +1,4 @@
-for part in ${PORT_PARTITION};do
-    payload-dumper-go -l PORTROM/payload.bin  |sed "s/,/\n/g" |grep -v "vbmeta" |grep "${part} ("
-    if [ $? -eq 0 ];then
-        Yellow "底包 [${part}.img] 已重命名为 [${part}_bak.img]"
-        mv BASEROM/images/${part}.img BASEROM/images/${part}_bak.img
-        Yellow "正在分解底包 [${part}_bak.img]"
+
         python3 bin/imgextractor/imgextractor.py BASEROM/images/${part}_bak.img 2>/dev/null
         if [ -d "${part}_bak" ];then
             mv ${part}_bak BASEROM/images/
@@ -19,8 +14,7 @@ for part in ${PORT_PARTITION};do
         mv config/${part}_bak_file_contexts BASEROM/config/
         Yellow "正在提取移植包 [${part}] 分区"
         payload-dumper-go -p ${part} -o BASEROM/images/ PORTROM/payload.bin >/dev/null 2>&1 ||Error "提取移植包 [${part}] 分区时出错"
-    fi
-done
+
 
 rm -rf PORTROM
 
