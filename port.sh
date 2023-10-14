@@ -1,7 +1,3 @@
-# 移植的分区，可在 bin/port_config 中更改
-PORT_PARTITION=$(grep "partition_to_port" bin/port_config |cut -d '=' -f 2)
-SUPERLIST=$(grep "super_list" bin/port_config |cut -d '=' -f 2)
-REPACKEXT4=$(grep "repack_with_ext4" bin/port_config |cut -d '=' -f 2)
 
 # 检查为本地包还是链接
 if [ ! -f "${BASEROM}" ] && [ "$(echo $BASEROM |grep http)" != "" ];then

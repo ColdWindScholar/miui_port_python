@@ -12,6 +12,16 @@
 
 import sys
 from log import Error, Yellow, Green
+import os
+import utils
+
+LOCAL = os.getcwd()
 BASEROM = sys.argv[1]
 PORTROM = sys.argv[2]
 
+setting = utils.setting(os.path.join(LOCAL, 'bin', 'port_config'))
+# 移植的分区，可在 bin/port_config 中更改
+PORT_PARTITION = setting.get('partition_to_port')
+SUPERLIST = setting.get('super_list')
+REPACKEXT4 = setting.get("repack_with_ext4")
+print(PORT_PARTITION,  SUPERLIST, REPACKEXT4)
