@@ -91,3 +91,8 @@ for i in ['app', 'config', 'BASEROM', 'PORTROM']:
         except:
             pass
 
+for root, dirs, files in os.walk(LOCAL):
+    for d in dirs:
+        if d.startswith('PORT_'):
+            directory_path = os.path.join(root, d)
+            shutil.rmtree(directory_path)

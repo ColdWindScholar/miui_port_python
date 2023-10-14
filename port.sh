@@ -1,4 +1,3 @@
-find . -type d -name 'PORT_*' |xargs rm -rf
 mkdir -p BASEROM/images/
 mkdir -p BASEROM/config/
 mkdir -p PORTROM/images/
