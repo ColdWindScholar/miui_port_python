@@ -2,22 +2,10 @@
 Yellow "正在替换 displayconfig"
 rm -rf BASEROM/images/product/etc/displayconfig/*
 cp -rf BASEROM/images/product_bak/etc/displayconfig/* BASEROM/images/product/etc/displayconfig/
-for context in $(find BASEROM/images/product/etc/displayconfig/ -type f);do
-    echo>>BASEROM/config/product_file_contexts
-    echo>>BASEROM/config/product_fs_config
-    echo "${context} u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/product_file_contexts
-    echo "${context} 0 0 0644" |sed 's/BASEROM\/images\///g' >>BASEROM/config/product_fs_config
-done
 
 Yellow "正在替换 device_features"
 rm -rf BASEROM/images/product/etc/device_features/*
 cp -rf BASEROM/images/product_bak/etc/device_features/* BASEROM/images/product/etc/device_features/
-for context in $(find BASEROM/images/product/etc/device_features/ -type f);do
-    echo>>BASEROM/config/product_file_contexts
-    echo>>BASEROM/config/product_fs_config
-    echo "${context} u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/product_file_contexts
-    echo "${context} 0 0 0644" |sed 's/BASEROM\/images\///g' >>BASEROM/config/product_fs_config
-done
 
 
 # 相机
@@ -66,19 +54,7 @@ fi
 # 修复NFC
 Yellow "正在修复 NFC"
 cp -rf BASEROM/images/product_bak/pangu/system ./system
-for file in $(find system -type d |sed "1d");do
-    echo>>BASEROM/config/system_file_contexts
-    echo>>BASEROM/config/system_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/system\//\/system\/system\//g' |sed 's/\./\\\./g' >>BASEROM/config/system_file_contexts
-    echo "$file 0 0 0755" |sed 's/system/system\/system/g' >>BASEROM/config/system_fs_config
-done
 
-for file in $(find system/ -type f);do
-    echo>>BASEROM/config/system_file_contexts
-    echo>>BASEROM/config/system_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/system\//\/system\/system\//g' |sed 's/\./\\\./g' >>BASEROM/config/system_file_contexts
-    echo "$file 0 0 0644" |sed 's/system/system\/system/g' >>BASEROM/config/system_fs_config
-done
 cp -rf system/* BASEROM/images/system/system/
 rm -rf system/
 if [ -f BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml ] && [ -f BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml ];then
@@ -87,61 +63,6 @@ fi
 if [ -f BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar ] && [ -f BASEROM/images/system/system/framework/com.android.nfc_extras.jar ];then
     cp -rf BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar BASEROM/images/system/system/framework/com.android.nfc_extras.jar
 fi
-
-
-# App context 修复
-Yellow "正在补全 contexts"
-for file in $(find BASEROM/images/system/system/app BASEROM/images/system/system/priv-app -type d);do
-    echo>>BASEROM/config/system_file_contexts
-    echo>>BASEROM/config/system_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/system_file_contexts
-    echo "$file 0 0 0755" |sed 's/BASEROM\/images\///g' >>BASEROM/config/system_fs_config
-done
-
-for file in $(find BASEROM/images/system/system/app BASEROM/images/system/system/priv-app -type f);do
-    echo>>BASEROM/config/system_file_contexts
-    echo>>BASEROM/config/system_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/system_file_contexts
-    echo "$file 0 0 0644" |sed 's/BASEROM\/images\///g' >>BASEROM/config/system_fs_config
-done
-
-for file in $(find BASEROM/images/product/app BASEROM/images/product/priv-app -type d);do
-    echo>>BASEROM/config/product_file_contexts
-    echo>>BASEROM/config/product_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/product_file_contexts
-    echo "$file 0 0 0755" |sed 's/BASEROM\/images\///g' >>BASEROM/config/product_fs_config
-done
-
-for file in $(find BASEROM/images/product/app BASEROM/images/product/priv-app -type f);do
-    echo>>BASEROM/config/product_file_contexts
-    echo>>BASEROM/config/product_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/product_file_contexts
-    echo "$file 0 0 644" |sed 's/BASEROM\/images\///g' >>BASEROM/config/product_fs_config
-done
-
-
-
-for lib in $(find BASEROM/images/system/system/lib/ BASEROM/images/system/system/lib64/ -maxdepth 1 -type f);do
-    echo>>BASEROM/config/system_file_contexts
-    echo>>BASEROM/config/system_fs_config
-    echo "$lib u:object_r:system_lib_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/system_file_contexts
-    echo "$lib 0 0 0644" |sed 's/BASEROM\/images\///g' >>BASEROM/config/system_fs_config
-done
-
-cp -rf BASEROM/images/product_bak/overlay/* BASEROM/images/product/overlay/
-for file in $(find BASEROM/images/product/overlay -type d);do
-    echo>>BASEROM/config/product_file_contexts
-    echo>>BASEROM/config/product_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/product_file_contexts
-    echo "$file 0 0 0755" |sed 's/BASEROM\/images\///g' >>BASEROM/config/product_fs_config
-done
-
-for file in $(find BASEROM/images/product/overlay -type f);do
-    echo>>BASEROM/config/product_file_contexts
-    echo>>BASEROM/config/product_fs_config
-    echo "$file u:object_r:system_file:s0" |sed 's/BASEROM\/images//g' |sed 's/\./\\\./g' >>BASEROM/config/product_file_contexts
-    echo "$file 0 0 644" |sed 's/BASEROM\/images\///g' >>BASEROM/config/product_fs_config
-done
 
 # 签名验证
 frameworkjar=$(find BASEROM/images/system/system -type f -name framework.jar)
