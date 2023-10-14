@@ -13,3 +13,14 @@ class setting:
                         return data[0]
                     else:
                         return data
+
+
+class String:
+    def __init__(self):
+        self.var = None
+
+    def set(self, v):
+        setattr(self, 'var', v)
+
+    def get(self):
+        return self.var
