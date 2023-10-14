@@ -203,3 +203,22 @@ for root, dirs, files in os.walk('BASEROM/images/'):
                 data = [i.replace(',avb', '') for i in data]
                 f_.writelines(data)
 remove_data_encrypt = setting.get("remove_data_encryption")
+if remove_data_encrypt == 'ture':
+    Yellow("去除data加密")
+    for root, dirs, files in os.walk('BASEROM/images/'):
+        for f in files:
+            if f.startswith('fstab.'):
+                Yellow(f"Target: {f}")
+                with open(os.path.join(root, f), 'r') as f_:
+                    data = f_.readlines()
+                with open(os.path.join(root, f), 'w', encoding='utf-8') as f_:
+                    data = [i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0', '') for i in data]
+                    data = [i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2+emmc_optimized+wrappedkey_v0', '') for i in data]
+                    data = [i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2', '') for i in data]
+                    data = [i.replace(',metadata_encryption=aes-256-xts:wrappedkey_v0', '') for i in data]
+                    data = [i.replace(',fileencryption=aes-256-xts:wrappedkey_v0', '') for i in data]
+                    data = [i.replace(',metadata_encryption=aes-256-xts', '') for i in data]
+                    data = [i.replace(',fileencryption=aes-256-xts', '') for i in data]
+                    data = [i.replace('fileencryption', 'encryptable') for i in data]
+                    data = [i.replace(',fileencryption=ice', '') for i in data]
+                    f_.writelines(data)

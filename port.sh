@@ -1,19 +1,3 @@
-if [ "${remove_data_encrypt}" == "true" ];then
-    Yellow "去除data加密"
-    for fstab in $(find BASEROM/images/ -type f -name "fstab.*");do
-		Yellow "Target: $fstab"
-		sed -i "s/,fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0//g" $fstab
-		sed -i "s/,fileencryption=aes-256-xts:aes-256-cts:v2+emmc_optimized+wrappedkey_v0//g" $fstab
-		sed -i "s/,fileencryption=aes-256-xts:aes-256-cts:v2//g" $fstab
-		sed -i "s/,metadata_encryption=aes-256-xts:wrappedkey_v0//g" $fstab
-		sed -i "s/,fileencryption=aes-256-xts:wrappedkey_v0//g" $fstab
-		sed -i "s/,metadata_encryption=aes-256-xts//g" $fstab
-		sed -i "s/,fileencryption=aes-256-xts//g" $fstab
-		sed -i "s/fileencryption/encryptable/g" $fstab
-		sed -i "s/,fileencryption=ice//g" $fstab
-	done
-fi
-
 baseAospFrameworkResOverlay=$(find BASEROM/images/product_bak/ -type f -name "AospFrameworkResOverlay.apk")
 portAospFrameworkResOverlay=$(find BASEROM/images/product/ -type f -name "AospFrameworkResOverlay.apk")
 if [ -f "${baseAospFrameworkResOverlay}" ] && [ -f "${portAospFrameworkResOverlay}" ];then
