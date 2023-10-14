@@ -36,12 +36,12 @@
     sudo apt upgrade
     sudo apt install git -y
     # 克隆项目
-    git clone https://github.com/ljc-fight/miui_port.git
-    cd miui_port
+    git clone https://github.com/ColdWindScholar/miui_port_python
+    cd miui_port_python
     # 安装依赖
     sudo bash setup.sh
     # 开始移植
-    sudo bash miui_port.sh <底包路径> <移植包路径>
+    sudo bash port.py <底包路径> <移植包路径>
 ```
 
 - 在Termux上
@@ -50,12 +50,12 @@
     pkg upgrade
     pkg install git tsu -y
     # 克隆项目
-    git clone https://github.com/ljc-fight/miui_port.git
+    git clone https://github.com/ColdWindScholar/miui_port_python
     cd miui_port/
     # 安装依赖
     bash setup.sh
     # 进入root模式
     tsu
-    bash miui_port.sh <底包路径> <移植包路径>
+    bash port.py <底包路径> <移植包路径>
 ```
 - 上述代码中，底包路径和移植包路径可以替换为链接
