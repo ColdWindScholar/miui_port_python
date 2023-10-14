@@ -24,4 +24,5 @@ setting = utils.setting(os.path.join(LOCAL, 'bin', 'port_config'))
 PORT_PARTITION = setting.get('partition_to_port')
 SUPERLIST = setting.get('super_list')
 REPACKEXT4 = setting.get("repack_with_ext4")
-print(PORT_PARTITION,  SUPERLIST, REPACKEXT4)
+if not os.path.exists(BASEROM) and 'http' in BASEROM:
+    Yellow('底包为一个链接，正在尝试下载')
