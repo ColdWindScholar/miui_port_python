@@ -15,6 +15,7 @@ from log import Error, Yellow, Green
 import os
 import utils
 import downloader
+
 LOCAL = os.getcwd()
 BASEROM = sys.argv[1]
 PORTROM = sys.argv[2]
@@ -67,3 +68,5 @@ if "miui_" in BASEROM:
 else:
     deviceCode.set("YourDevice")
 Yellow("正在检测ROM包")
+if not utils.is_file_in_zip(BASEROM, 'payload.bin'): Error("底包没有payload.bin，请用MIUI官方包作为底包")
+if not utils.is_file_in_zip(PORTROM, 'payload.bin'): Error("目标移植包没有payload.bin，请用MIUI官方包作为底包")

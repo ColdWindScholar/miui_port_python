@@ -1,3 +1,6 @@
+import zipfile
+
+
 class setting:
     def __init__(self, file):
         self.set_f = file
@@ -24,3 +27,15 @@ class String:
 
     def get(self):
         return self.var
+
+
+def is_file_in_zip(zip_file_path, file_name):
+    # 打开zip文件
+    with zipfile.ZipFile(zip_file_path, 'r') as zf:
+        # 获取zip文件中的所有文件名
+        file_names = zf.namelist()
+        # 判断指定文件名是否存在于zip文件中
+        if file_name in file_names:
+            return True
+        else:
+            return False

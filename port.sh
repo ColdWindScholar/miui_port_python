@@ -1,6 +1,3 @@
-unzip -l ${BASEROM}|grep "payload.bin" 1>/dev/null 2>&1 ||Error "底包没有payload.bin，请用MIUI官方包作为底包"
-unzip -l ${BASEROM} |grep "payload.bin" 1>/dev/null 2>&1 ||Error "目标移植包没有payload.bin，请用MIUI官方包作为移植包"
-
 Green "ROM初步检测通过"
 
 
