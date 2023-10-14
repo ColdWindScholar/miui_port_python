@@ -1,24 +1,3 @@
-
-        python3 bin/imgextractor/imgextractor.py BASEROM/images/${part}_bak.img 2>/dev/null
-        if [ -d "${part}_bak" ];then
-            mv ${part}_bak BASEROM/images/
-            sed -i '/+found/d' config/${part}_bak_file_contexts
-            rm -rf BASEROM/images/${part}_bak.img
-        else
-            extract.erofs -x -i BASEROM/images/${part}_bak.img
-            mv ${part}_bak BASEROM/images/
-            rm -rf BASEROM/images/${part}_bak.img
-        fi
-        mv config/${part}_bak_size.txt BASEROM/config/
-        mv config/${part}_bak_fs_config BASEROM/config/
-        mv config/${part}_bak_file_contexts BASEROM/config/
-        Yellow "正在提取移植包 [${part}] 分区"
-        payload-dumper-go -p ${part} -o BASEROM/images/ PORTROM/payload.bin >/dev/null 2>&1 ||Error "提取移植包 [${part}] 分区时出错"
-
-
-rm -rf PORTROM
-
-# 分解镜像
 Green 开始提取逻辑分区镜像
 for pname in ${SUPERLIST};do
     if [ -f "BASEROM/images/${pname}.img" ];then
