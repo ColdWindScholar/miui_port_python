@@ -1,7 +1,5 @@
-Green 开始提取逻辑分区镜像
 for pname in ${SUPERLIST};do
     if [ -f "BASEROM/images/${pname}.img" ];then
-        Yellow 正在提取 ${pname}.img
         python3 bin/imgextractor/imgextractor.py BASEROM/images/${pname}.img 2>/dev/null
         if [ -d "${pname}" ];then
             mv ${pname} BASEROM/images/
@@ -26,10 +24,6 @@ for pname in ${SUPERLIST};do
             fi
         fi
         Green "提取 [${pname}] 镜像完毕"
-    fi
-done
-rm -rf config
-
 
 # 获取ROM参数
 

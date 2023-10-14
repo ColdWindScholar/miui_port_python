@@ -127,17 +127,40 @@ for part in PORT_PARTITION:
         Yellow(f"底包 [{part}.img] 重命名为 [{part}_bak.img]")
         shutil.move(f'BASEROM/images/{part}.img', f'BASEROM/images/{part}_bak.img')
         Yellow(f"正在分解底包 [{part}_bak.img]")
-        if utils.gettype('BASEROM/images/{part}_bak.img') == 'ext':
-            imgextractor.Extractor().main('BASEROM/images/{part}_bak.img',
+        if utils.gettype(f'BASEROM/images/{part}_bak.img') == 'ext':
+            imgextractor.Extractor().main(f'BASEROM/images/{part}_bak.img',
                                           LOCAL + os.sep + "BASEROM" + os.sep + "images" + os.sep + part + "_bak",
                                           LOCAL + os.sep + "BASEROM")
-        elif utils.gettype('BASEROM/images/{part}_bak.img') == 'erofs':
+        elif utils.gettype(f'BASEROM/images/{part}_bak.img') == 'erofs':
             utils.call(f'extract.erofs -i BASEROM/images/{part}_bak.img -o BASEROM/images/ -x')
             for i in [f'{part}_bak_fs_config', f'{part}_bak_file_contexts']:
                 if os.path.exists('BASEROM/images/config/' + i):
                     shutil.move('BASEROM/images/config/' + i, 'BASEROM/config/' + i)
+        if os.path.isdir('BASEROM/images/'+part+'_bak'):
+            try:
+                os.remove(f'BASEROM/images/{part}_bak.img')
+            except:
+                pass
         Yellow(f"正在提取移植包 [{part}] 分区")
         if utils.call(f'payload-dumper-go -p {part} -o BASEROM/images/ PORTROM/payload.bin') != 0:
             Error(f"提取移植包 [{part}] 分区时出错")
 if os.path.isdir('PORTROM'):
     shutil.rmtree('PORTROM')
+Green("开始提取逻辑分区镜像")
+for pname in SUPERLIST:
+    if os.path.isdir(f"BASEROM/images/{pname}.img"):
+        Yellow(f'正在提取 {pname}.img')
+        if utils.gettype(f'BASEROM/images/{pname}.img') == 'ext':
+            imgextractor.Extractor().main(f'BASEROM/images/{pname}.img',
+                                          LOCAL + os.sep + "BASEROM" + os.sep + "images" + os.sep + pname,
+                                          LOCAL + os.sep + "BASEROM")
+        elif utils.gettype(f'BASEROM/images/{pname}.img') == 'erofs':
+            utils.call(f'extract.erofs -i BASEROM/images/{pname}.img -o BASEROM/images/ -x')
+            for i in [f'{pname}_fs_config', f'{pname}_file_contexts']:
+                if os.path.exists('BASEROM/images/config/' + i):
+                    shutil.move('BASEROM/images/config/' + i, 'BASEROM/config/' + i)
+        if os.path.isdir('BASEROM/images/'+pname):
+            try:
+                os.remove(f'BASEROM/images/{pname}.img')
+            except:
+                pass
