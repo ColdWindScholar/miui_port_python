@@ -1,6 +1,3 @@
-payload-dumper-go -o BASEROM/images/ BASEROM/payload.bin >/dev/null 2>&1 ||Error "分解底包 [payload.bin] 时出错"
-
-
 for part in ${PORT_PARTITION};do
     payload-dumper-go -l PORTROM/payload.bin  |sed "s/,/\n/g" |grep -v "vbmeta" |grep "${part} ("
     if [ $? -eq 0 ];then

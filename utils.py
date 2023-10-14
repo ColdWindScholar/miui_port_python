@@ -36,6 +36,15 @@ def call(exe, kz='Y', out=0, shstate=False, sp=0):
     return ret.returncode
 
 
+def returnoutput(exe):
+    cmd = f'{ebinner}{exe}'
+    try:
+        ret = subprocess.check_output(cmd, shell=False, stderr=subprocess.STDOUT)
+        return ret.decode()
+    except subprocess.CalledProcessError as e:
+        return e.decode()
+
+
 class setting:
     def __init__(self, file):
         self.set_f = file

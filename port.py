@@ -114,3 +114,7 @@ except:
     sys.exit(1)
 Green("移植包 [payload.bin] 提取完毕")
 Yellow("开始分解底包 [payload.bin]")
+if utils.call("payload-dumper-go -o BASEROM/images/ BASEROM/payload.bin") != 0:
+    Error("分解底包 [payload.bin] 时出错")
+    sys.exit(1)
+for part in PORT_PARTITION:
