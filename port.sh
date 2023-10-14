@@ -1,36 +1,4 @@
-# radio lib
-# Yellow "信号相关"
-# for radiolib in $(find BASEROM/images/system_bak/system/lib/ -maxdepth 1 -type f -name "*radio*");do
-#     cp -rf $radiolib BASEROM/images/system/system/lib/
-# done
 
-# for radiolib in $(find BASEROM/images/system_bak/system/lib64/ -maxdepth 1 -type f -name "*radio*");do
-#     cp -rf $radiolib BASEROM/images/system/system/lib64/
-# done
-
-
-# audio lib
-# Yellow "音频相关"
-# for audiolib in $(find BASEROM/images/system_bak/system/lib/ -maxdepth 1 -type f -name "*audio*");do
-#     cp -rf $audiolib BASEROM/images/system/system/lib/
-# done
-
-# for audiolib in $(find BASEROM/images/system_bak/system/lib64/ -maxdepth 1 -type f -name "*audio*");do
-#     cp -rf $audiolib BASEROM/images/system/system/lib64/
-# done
-
-# # bt lib
-# Yellow "蓝牙相关"
-# for btlib in $(find BASEROM/images/system_bak/system/lib/ -maxdepth 1 -type f -name "*bluetooth*");do
-#     cp -rf $btlib BASEROM/images/system/system/lib/
-# done
-
-# for btlib in $(find BASEROM/images/system_bak/system/lib64/ -maxdepth 1 -type f -name "*bluetooth*");do
-#     cp -rf $btlib BASEROM/images/system/system/lib64/
-# done
-
-
-# displayconfig id
 Yellow "正在替换 displayconfig"
 rm -rf BASEROM/images/product/etc/displayconfig/*
 cp -rf BASEROM/images/product_bak/etc/displayconfig/* BASEROM/images/product/etc/displayconfig/
@@ -41,7 +9,6 @@ for context in $(find BASEROM/images/product/etc/displayconfig/ -type f);do
     echo "${context} 0 0 0644" |sed 's/BASEROM\/images\///g' >>BASEROM/config/product_fs_config
 done
 
-# device_features
 Yellow "正在替换 device_features"
 rm -rf BASEROM/images/product/etc/device_features/*
 cp -rf BASEROM/images/product_bak/etc/device_features/* BASEROM/images/product/etc/device_features/
@@ -153,7 +120,6 @@ for file in $(find BASEROM/images/product/app BASEROM/images/product/priv-app -t
 done
 
 
-# lib file u:object_r:system_lib_file:s0
 
 for lib in $(find BASEROM/images/system/system/lib/ BASEROM/images/system/system/lib64/ -maxdepth 1 -type f);do
     echo>>BASEROM/config/system_file_contexts
@@ -184,7 +150,7 @@ if [ -f "$frameworkjar" ] && [ ${port_android_version} -ge 13 ];then
 	rm -rf tmp/framework/
 	mkdir -p tmp/framework/
 	cp -rf ${frameworkjar} tmp/framework/framework.jar
-	7z x -y tmp/framework/framework.jar *.dex -otmp/framework >/dev/null
+	7z x -y tmp/framework/framework.jar *.dex -otmp/framework
 	for dexfile in $(ls tmp/framework/*.dex);do
 		echo I: Baksmaling ${dexfile}...
 		fname=${dexfile%%.*}
@@ -201,7 +167,7 @@ if [ -f "$frameworkjar" ] && [ ${port_android_version} -ge 13 ];then
 		echo I: Smaling smali_${targetdir} folder into ${targetdir}.dex
 		java -jar bin/apktool/smali.jar a --api ${port_android_sdk} tmp/framework/${targetdir} -o tmp/framework/${targetdir}.dex
 		cd tmp/framework/
-		7z a -y framework.jar ${targetdir}.dex >/dev/null
+		7z a -y framework.jar ${targetdir}.dex
 		cd ../../
 		cp -rf tmp/framework/framework.jar ${frameworkjar}
 		rm -rf tmp/framework/
@@ -250,15 +216,15 @@ rm -rf BASEROM/images/product/priv-app/*Hybrid*
 rm -rf BASEROM/images/product/etc/auto-install*
 rm -rf BASEROM/images/product/app/AnalyticsCore/*
 rm -rf BASEROM/images/product/priv-app/AnalyticsCore/*
-rm -rf BASEROM/images/product/data-app/*GalleryLockscreen* >/dev/null 2>&1
+rm -rf BASEROM/images/product/data-app/*GalleryLockscreen*
 mkdir -p app
-mv BASEROM/images/product/data-app/*Weather* app/ >/dev/null 2>&1
-mv BASEROM/images/product/data-app/*DeskClock* app/ >/dev/null 2>&1
-mv BASEROM/images/product/data-app/*Gallery* app/ >/dev/null 2>&1
-mv BASEROM/images/product/data-app/*SoundRecorder* app/ >/dev/null 2>&1
-mv BASEROM/images/product/data-app/*ScreenRecorder* app/ >/dev/null 2>&1
-mv BASEROM/images/product/data-app/*Calculator* app/ >/dev/null 2>&1
-mv BASEROM/images/product/data-app/*Calendar* app/ >/dev/null 2>&1
+mv BASEROM/images/product/data-app/*Weather* app/
+mv BASEROM/images/product/data-app/*DeskClock* app/
+mv BASEROM/images/product/data-app/*Gallery* app/
+mv BASEROM/images/product/data-app/*SoundRecorder* app/
+mv BASEROM/images/product/data-app/*ScreenRecorder* app/
+mv BASEROM/images/product/data-app/*Calculator* app/
+mv BASEROM/images/product/data-app/*Calendar* app/
 rm -rf BASEROM/images/product/data-app/*
 cp -rf app/* BASEROM/images/product/data-app
 rm -rf app
