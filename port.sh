@@ -1,12 +1,3 @@
-mkdir -p BASEROM/images/
-mkdir -p BASEROM/config/
-mkdir -p PORTROM/images/
-Green "文件清理完毕"
-
-
-# 提取分区
-Yellow "正在提取底包 [payload.bin]"
-unzip ${BASEROM} payload.bin -d BASEROM ||Error "解压底包 [payload.bin] 时出错"
 Green "底包 [payload.bin] 提取完毕"
 Yellow "正在提取移植包 [payload.bin]"
 unzip ${PORTROM} payload.bin -d PORTROM ||Error "解压移植包 [payload.bin] 时出错"

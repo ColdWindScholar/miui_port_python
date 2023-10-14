@@ -39,3 +39,8 @@ def is_file_in_zip(zip_file_path, file_name):
             return True
         else:
             return False
+
+
+def extra_payload(file, out):
+    with zipfile.ZipFile(file, 'r') as zf:
+        zf.extract('payload.bin', out)

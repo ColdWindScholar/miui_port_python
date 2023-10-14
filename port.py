@@ -96,3 +96,12 @@ for root, dirs, files in os.walk(LOCAL):
         if d.startswith('PORT_'):
             directory_path = os.path.join(root, d)
             shutil.rmtree(directory_path)
+for i in ['BASEROM/images/', 'BASEROM/config/', 'PORTROM/images/']:
+    os.makedirs(i)
+Green("文件清理完毕")
+Yellow("正在提取底包 [payload.bin]")
+try:
+    utils.extra_payload(BASEROM, 'BASEROM')
+except:
+    Error("解压底包 [payload.bin] 时出错")
+    sys.exit(1)
