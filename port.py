@@ -212,8 +212,11 @@ if remove_data_encrypt == 'ture':
                 with open(os.path.join(root, f), 'r') as f_:
                     data = f_.readlines()
                 with open(os.path.join(root, f), 'w', encoding='utf-8') as f_:
-                    data = [i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0', '') for i in data]
-                    data = [i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2+emmc_optimized+wrappedkey_v0', '') for i in data]
+                    data = [
+                        i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized+wrappedkey_v0', '')
+                        for i in data]
+                    data = [i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2+emmc_optimized+wrappedkey_v0', '') for
+                            i in data]
                     data = [i.replace(',fileencryption=aes-256-xts:aes-256-cts:v2', '') for i in data]
                     data = [i.replace(',metadata_encryption=aes-256-xts:wrappedkey_v0', '') for i in data]
                     data = [i.replace(',fileencryption=aes-256-xts:wrappedkey_v0', '') for i in data]
@@ -222,5 +225,10 @@ if remove_data_encrypt == 'ture':
                     data = [i.replace('fileencryption', 'encryptable') for i in data]
                     data = [i.replace(',fileencryption=ice', '') for i in data]
                     f_.writelines(data)
-baseAospFrameworkResOverlay = findfile("AospFrameworkResOverlay.apk", 'BASEROM/images/product_bak/')
-portAospFrameworkResOverlay = findfile("AospFrameworkResOverlay.apk", 'BASEROM/images/product/')
+for i in ["AospFrameworkResOverlay.apk", "MiuiFrameworkResOverlay.apk", "AospWifiResOverlay.apk",
+          "DevicesAndroidOverlay.apk", "DevicesOverlay.apk", "MiuiBiometricResOverlay.apk"]:
+    base = findfile(i, 'BASEROM/images/product_bak/')
+    port = findfile(i, 'BASEROM/images/product/')
+    if base and port and os.path.isfile(base) and os.path.exists(port):
+        Yellow(f'正在替换 [{i}]')
+        shutil.copy(base, port)
