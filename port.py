@@ -11,3 +11,7 @@
 # 底包和移植包为外部参数传入
 
 import sys
+from log import Error, Yellow, Green
+BASEROM = sys.argv[1]
+PORTROM = sys.argv[2]
+

@@ -1,22 +1,3 @@
-
-BASEROM="$1"
-PORTROM="$2"
-
-export PATH=$(pwd)/bin/$(uname)/$(uname -m)/:$PATH
-
-# 定义颜色输出函数
-Error() {
-    echo -e \[$(date +%m%d-%T)\] "\e[1;31m"$@"\e[0m"
-}
-
-Yellow() {
-	echo -e \[$(date +%m%d-%T)\] "\e[1;33m"$@"\e[0m"
-}
-
-Green() {
-	echo -e \[$(date +%m%d-%T)\] "\e[1;32m"$@"\e[0m"
-}
-
 # 移植的分区，可在 bin/port_config 中更改
 PORT_PARTITION=$(grep "partition_to_port" bin/port_config |cut -d '=' -f 2)
 SUPERLIST=$(grep "super_list" bin/port_config |cut -d '=' -f 2)
