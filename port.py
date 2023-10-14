@@ -13,7 +13,7 @@ import re
 import sys
 
 import imgextractor
-from api import getprop
+from api import getprop, findfile
 from log import Error, Yellow, Green
 import os
 import utils
@@ -222,3 +222,5 @@ if remove_data_encrypt == 'ture':
                     data = [i.replace('fileencryption', 'encryptable') for i in data]
                     data = [i.replace(',fileencryption=ice', '') for i in data]
                     f_.writelines(data)
+baseAospFrameworkResOverlay = findfile("AospFrameworkResOverlay.apk", 'BASEROM/images/product_bak/')
+portAospFrameworkResOverlay = findfile("AospFrameworkResOverlay.apk", 'BASEROM/images/product/')

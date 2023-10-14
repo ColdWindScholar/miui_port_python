@@ -1,5 +1,3 @@
-baseAospFrameworkResOverlay=$(find BASEROM/images/product_bak/ -type f -name "AospFrameworkResOverlay.apk")
-portAospFrameworkResOverlay=$(find BASEROM/images/product/ -type f -name "AospFrameworkResOverlay.apk")
 if [ -f "${baseAospFrameworkResOverlay}" ] && [ -f "${portAospFrameworkResOverlay}" ];then
     Yellow "正在替换 [AospFrameworkResOverlay.apk]"
     cp -rf ${baseAospFrameworkResOverlay} ${portAospFrameworkResOverlay}
