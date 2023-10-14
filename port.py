@@ -13,6 +13,7 @@
 import sys
 
 import imgextractor
+from api import getprop
 from log import Error, Yellow, Green
 import os
 import utils
@@ -122,6 +123,8 @@ if utils.call("payload-dumper-go -o BASEROM/images/ BASEROM/payload.bin") != 0:
 payload_list = []
 for i in utils.returnoutput('payload-dumper-go -l PORTROM/payload.bin').split('\n')[6].split(','):
     payload_list.append(i.split(' (')[0].replace(' ', ''))
+packType = utils.String()
+packType.set('ext4')
 for part in PORT_PARTITION:
     if part in payload_list:
         Yellow(f"底包 [{part}.img] 重命名为 [{part}_bak.img]")
@@ -132,11 +135,13 @@ for part in PORT_PARTITION:
                                           LOCAL + os.sep + "BASEROM" + os.sep + "images" + os.sep + part + "_bak",
                                           LOCAL + os.sep + "BASEROM")
         elif utils.gettype(f'BASEROM/images/{part}_bak.img') == 'erofs':
+            if REPACKEXT4 != 'true':
+                packType.set('erofs')
             utils.call(f'extract.erofs -i BASEROM/images/{part}_bak.img -o BASEROM/images/ -x')
             for i in [f'{part}_bak_fs_config', f'{part}_bak_file_contexts']:
                 if os.path.exists('BASEROM/images/config/' + i):
                     shutil.move('BASEROM/images/config/' + i, 'BASEROM/config/' + i)
-        if os.path.isdir('BASEROM/images/'+part+'_bak'):
+        if os.path.isdir('BASEROM/images/' + part + '_bak'):
             try:
                 os.remove(f'BASEROM/images/{part}_bak.img')
             except:
@@ -159,8 +164,19 @@ for pname in SUPERLIST:
             for i in [f'{pname}_fs_config', f'{pname}_file_contexts']:
                 if os.path.exists('BASEROM/images/config/' + i):
                     shutil.move('BASEROM/images/config/' + i, 'BASEROM/config/' + i)
-        if os.path.isdir('BASEROM/images/'+pname):
+        if os.path.isdir('BASEROM/images/' + pname):
             try:
                 os.remove(f'BASEROM/images/{pname}.img')
             except:
                 pass
+        Green(f"提取 [{pname}] 镜像完毕")
+Yellow("正在获取ROM参数")
+base_android_version = getprop('ro.vendor.build.version.release', 'BASEROM/images/vendor/build.prop')
+port_android_version = getprop("ro.system.build.version.release", 'BASEROM/images/system/system/build.prop')
+Green(f"安卓版本: 底包为[Android {base_android_version}], 移植包为 [Android {port_android_version}]")
+base_android_sdk = getprop("ro.vendor.build.version.sdk", 'BASEROM/images/vendor/build.prop')
+port_android_sdk = getprop("ro.system.build.version.sdk", 'BASEROM/images/system/system/build.prop')
+Green(f"SDK 版本: 底包为 [SDK {base_android_sdk}], 移植包为 [SDK {port_android_sdk}]")
+base_rom_version = getprop("ro.vendor.build.version.incremental", 'BASEROM/images/vendor/build.prop')
+port_rom_version = getprop("ro.system.build.version.incremental", 'BASEROM/images/system/system/build.prop')
+Green(f"ROM 版本: 底包为 [{base_rom_version}], 移植包为 [{port_rom_version}]")
