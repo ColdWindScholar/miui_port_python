@@ -1,22 +1,3 @@
-# 相机
-baseMiuiCamera=$(find BASEROM/images/product_bak/ -type d -name "MiuiCamera")
-portMiuiCamera=$(find BASEROM/images/product/ -type d -name "MiuiCamera")
-if [ -d "${baseMiuiCamera}" ] && [ -d "${portMiuiCamera}" ];then
-    Yellow "正在替换 相机"
-    rm -rf ./${portMiuiCamera}/*
-    cp -rf ./${baseMiuiCamera}/* ${portMiuiCamera}/
-fi
-
-
-# MiSound
-baseMiSound=$(find BASEROM/images/product_bak/ -type d -name "MiSound")
-portMiSound=$(find BASEROM/images/product/ -type d -name "MiSound")
-if [ -d "${baseMiSound}" ] && [ -d "${portMiSound}" ];then
-    Yellow "正在替换 MiSound"
-    rm -rf ./${portMiSound}/*
-    cp -rf ./${baseMiSound}/* ${portMiSound}/
-fi
-
 # MusicFX
 baseMusicFX=$(find BASEROM/images/product_bak/ BASEROM/images/system_bak/ -type d -name "MusicFX")
 portMusicFX=$(find BASEROM/images/product/ BASEROM/images/system/ -type d -name "MusicFX")

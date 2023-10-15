@@ -13,7 +13,7 @@ import re
 import sys
 
 import imgextractor
-from api import getprop, findfile
+from api import getprop, findfile, findfolder
 from log import Error, Yellow, Green
 import os
 import utils
@@ -240,3 +240,10 @@ Yellow("正在替换 device_features")
 if os.path.isdir('BASEROM/images/product/etc/displayconfig/'):
     shutil.rmtree('BASEROM/images/product/etc/device_features')
     shutil.copytree('BASEROM/images/product_bak/etc/device_features', 'BASEROM/images/product/etc')
+for d in ["MiuiCamera", "MiSound"]:
+    base = findfolder("BASEROM/images/product_bak/", d)
+    port = findfolder('BASEROM/images/product/', d)
+    if base and port and os.path.isdir(base) and os.path.exists(port):
+        Yellow(f'正在替换 [{i}]')
+        shutil.rmtree(port)
+        shutil.copytree(base, os.path.dirname(port))
