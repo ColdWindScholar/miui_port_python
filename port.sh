@@ -102,22 +102,6 @@ if [ "$(cat $vendorprop |grep "sys.haptic" |awk 'NR==1')" != "" ];then
     cat $vendorprop |grep "sys.haptic" >>${odmprop}
 fi
 
-# 处理 contexts 去重
-Yellow "contexts 去重"
-cat BASEROM/config/system_file_contexts |sort |uniq >system_file_contexts
-cat BASEROM/config/product_file_contexts |sort |uniq >product_file_contexts
-cat BASEROM/config/system_fs_config |sort |uniq >system_fs_config
-cat BASEROM/config/product_fs_config |sort |uniq >product_fs_config
-mv -f system_file_contexts BASEROM/config/system_file_contexts
-mv -f product_file_contexts BASEROM/config/product_file_contexts
-mv -f system_fs_config BASEROM/config/system_fs_config
-mv -f product_fs_config BASEROM/config/product_fs_config
-sed -i "1d" BASEROM/config/system_file_contexts
-sed -i "1d" BASEROM/config/product_file_contexts
-sed -i "1d" BASEROM/config/system_fs_config
-sed -i "1d" BASEROM/config/product_fs_config
-
-
 # 重新打包镜像
 rm -rf BASEROM/images/system_bak*
 rm -rf BASEROM/images/product_bak*
