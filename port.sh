@@ -1,7 +1,3 @@
-rm -rf BASEROM/images/product/etc/device_features/*
-cp -rf BASEROM/images/product_bak/etc/device_features/* BASEROM/images/product/etc/device_features/
-
-
 # 相机
 baseMiuiCamera=$(find BASEROM/images/product_bak/ -type d -name "MiuiCamera")
 portMiuiCamera=$(find BASEROM/images/product/ -type d -name "MiuiCamera")

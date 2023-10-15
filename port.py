@@ -237,3 +237,6 @@ if os.path.isdir('BASEROM/images/product/etc/displayconfig/'):
     shutil.copytree('BASEROM/images/product_bak/etc/displayconfig', 'BASEROM/images/product/etc')
 Yellow("正在替换 displayconfig")
 Yellow("正在替换 device_features")
+if os.path.isdir('BASEROM/images/product/etc/displayconfig/'):
+    shutil.rmtree('BASEROM/images/product/etc/device_features')
+    shutil.copytree('BASEROM/images/product_bak/etc/device_features', 'BASEROM/images/product/etc')
