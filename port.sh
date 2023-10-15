@@ -1,44 +1,16 @@
-if [ -f "$frameworkjar" ] && [ ${port_android_version} -ge 13 ];then
-	Yellow "正在去除安卓应用签名限制"
-	rm -rf tmp/framework/
-	mkdir -p tmp/framework/
-	cp -rf ${frameworkjar} tmp/framework/framework.jar
-	7z x -y tmp/framework/framework.jar *.dex -otmp/framework
-	for dexfile in $(ls tmp/framework/*.dex);do
-		echo I: Baksmaling ${dexfile}...
-		fname=${dexfile%%.*}
-		fname=$(echo $fname |cut -d "/" -f 3)
-		java -jar bin/apktool/baksmali.jar d --api ${port_android_sdk} ${dexfile} -o tmp/framework/${fname}
-		rm -rf ${dexfile}
-	done
-	targetSmali=$(find tmp/framework/ -type f -name ApkSignatureVerifier.smali)
-	if [ -f "$targetSmali" ];then
-		echo I: Target ${targetSmali}
-		targetdir=$(echo $targetSmali |cut -d "/" -f 3)
-		sed -i "s/const\/4 v0, 0x2/const\/4 v0, 0x1/g" $targetSmali
-		rm -rf ${frameworkjar}
-		echo I: Smaling smali_${targetdir} folder into ${targetdir}.dex
-		java -jar bin/apktool/smali.jar a --api ${port_android_sdk} tmp/framework/${targetdir} -o tmp/framework/${targetdir}.dex
-		cd tmp/framework/
-		7z a -y framework.jar ${targetdir}.dex
-		cd ../../
-		cp -rf tmp/framework/framework.jar ${frameworkjar}
-		rm -rf tmp/framework/
-		mkdir -p tmp/framework/arm tmp/framework/arm64
-		mv BASEROM/images/system/system/framework/boot-framework.vdex tmp/framework/
-		mv BASEROM/images/system/system/framework/arm/boot-framework.* tmp/framework/arm/
-		mv BASEROM/images/system/system/framework/arm64/boot-framework.* tmp/framework/arm64/
-		rm -rf BASEROM/images/system/system/framework/*.vdex BASEROM/images/system/system/framework/arm/* BASEROM/images/system/system/framework/arm64/*
+		mv
+		BASEROM/images/system/system/framework/arm/boot-framework.* tmp/framework/arm/
+		mv
+		BASEROM/images/system/system/framework/arm64/boot-framework.* tmp/framework/arm64/
+		rm -rf :
+		BASEROM/images/system/system/framework/arm/*
+		BASEROM/images/system/system/framework/arm64/*
 		find BASEROM/images/system -type d -name "oat" |xargs rm -rf
 		find BASEROM/images/vendor -type d -name "oat" |xargs rm -rf
 		find BASEROM/images/system_ext -type d -name "oat" |xargs rm -rf
 		find BASEROM/images/product -type d -name "oat" |xargs rm -rf
-		mv tmp/framework/* BASEROM/images/system/system/framework/
 		rm -rf tmp/
-	else
-		echo I: Skipping modify framework.jar
-		rm -rf tmp/
-	fi
+
 
 
 # 主题防恢复

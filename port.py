@@ -11,6 +11,7 @@ import re
 # 底包和移植包为外部参数传入
 
 import sys
+import zipfile
 
 import imgextractor
 from api import getprop, findfile, findfolder, copy_folder
@@ -259,14 +260,54 @@ for d in ["MiuiCamera", "MiSound", 'MusicFX', "MiuiBiometric"]:
         shutil.copytree(base, os.path.dirname(port))
 Yellow("正在修复 NFC")
 if os.path.isdir('BASEROM/images/product_bak/pangu/system'):
-    copy_folder('BASEROM/images/product_bak/pangu/system',  'BASEROM/images/system/')
-if os.path.isfile('BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml') and os.path.isfile('BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml'):
-    shutil.copy('BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml', 'BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml')
-if os.path.isfile('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar') and os.path.isfile('BASEROM/images/system/system/framework/com.android.nfc_extras.jar'):
-    shutil.copy('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar', 'BASEROM/images/system/system/framework/com.android.nfc_extras.jar')
+    copy_folder('BASEROM/images/product_bak/pangu/system', 'BASEROM/images/system/')
+if os.path.isfile('BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml') and os.path.isfile(
+        'BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml'):
+    shutil.copy('BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml',
+                'BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml')
+if os.path.isfile('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar') and os.path.isfile(
+        'BASEROM/images/system/system/framework/com.android.nfc_extras.jar'):
+    shutil.copy('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar',
+                'BASEROM/images/system/system/framework/com.android.nfc_extras.jar')
 frameworkjar = findfile('framework.jar', 'BASEROM/images/system/system')
 if os.path.isfile(frameworkjar) and int(port_android_version) >= 13:
     Yellow("正在去除安卓应用签名限制")
+    if not os.path.exists('tmp'):
+        os.makedirs('tmp')
+    with zipfile.ZipFile(frameworkjar, 'r') as zf:
+        for i in zf.namelist():
+            if i.endswith('.dex'):
+                zf.extract(i, 'tmp')
+    for i in os.listdir('tmp'):
+        if i.endswith('.dex'):
+            print(f'I: Baksmaling {i}')
+            fname = i.split('.')[0]
+            utils.call(
+                f'java -jar bin/apktool/baksmali.jar d --api {port_android_sdk} {LOCAL + os.sep + "tmp" + os.sep + i} -o tmp/{fname}')
+            os.remove(LOCAL + os.sep + "tmp" + os.sep + i)
+    targetSmali = findfile('ApkSignatureVerifier.smali', 'tmp')
+    if targetSmali and os.path.isfile(targetSmali):
+        print(f'I: Target {targetSmali}')
+        targetdir = os.path.basename(targetSmali)
+        with open(targetSmali, 'r', encoding='utf-8') as f:
+            data = f.readlines()
+        with open(targetSmali, 'w', encoding='utf-8') as f:
+            f.writelines([i.replace('const/4 v0, 0x2', 'const/4 v0, 0x1') for i in data])
+        print(f'I: Smaling smali_{targetdir} folder into {targetdir}.dex')
+        utils.call(f'java -jar bin/apktool/smali.jar a --api {port_android_sdk} tmp/{targetdir} -o tmp/{targetdir}.dex')
+        with zipfile.ZipFile(frameworkjar, 'a') as frame:
+            frame.write(f'tmp/{targetdir}.dex', f'{targetdir}.dex', zipfile.ZIP_DEFLATED)
+        for file in os.listdir('BASEROM/images/system/system/framework'):
+            if file.startswith('boot-framework'):
+                continue
+            elif file.endswith('.vdex'):
+                try:
+                    os.remove(os.path.join('BASEROM/images/system/system/framework', file))
+                except:
+                    pass
 
+    else:
+        print('I: Skipping modify framework.jar')
+        shutil.rmtree('tmp')
 else:
     Yellow('I: Skipping modify framework.jar')
