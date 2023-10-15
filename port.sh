@@ -1,18 +1,3 @@
-		mv
-		BASEROM/images/system/system/framework/arm/boot-framework.* tmp/framework/arm/
-		mv
-		BASEROM/images/system/system/framework/arm64/boot-framework.* tmp/framework/arm64/
-		rm -rf :
-		BASEROM/images/system/system/framework/arm/*
-		BASEROM/images/system/system/framework/arm64/*
-		find BASEROM/images/system -type d -name "oat" |xargs rm -rf
-		find BASEROM/images/vendor -type d -name "oat" |xargs rm -rf
-		find BASEROM/images/system_ext -type d -name "oat" |xargs rm -rf
-		find BASEROM/images/product -type d -name "oat" |xargs rm -rf
-		rm -rf tmp/
-
-
-
 # 主题防恢复
 if [ -f BASEROM/images/system/system/etc/init/hw/init.rc ];then
 	sed -i '/on boot/a\    chmod 0731 \/data\/system\/theme' BASEROM/images/system/system/etc/init/hw/init.rc

@@ -305,7 +305,27 @@ if os.path.isfile(frameworkjar) and int(port_android_version) >= 13:
                     os.remove(os.path.join('BASEROM/images/system/system/framework', file))
                 except:
                     pass
-
+        for file in os.listdir('BASEROM/images/system/system/framework/arm'):
+            if file.startswith('boot-framework'):
+                continue
+            elif file:
+                try:
+                    os.remove(os.path.join('BASEROM/images/system/system/framework/arm', file))
+                except:
+                    pass
+        for file in os.listdir('BASEROM/images/system/system/framework/arm64'):
+            if file.startswith('boot-framework'):
+                continue
+            elif file:
+                try:
+                    os.remove(os.path.join('BASEROM/images/system/system/framework/arm64', file))
+                except:
+                    pass
+        for root, dirs, files in os.walk('BASEROM/images/'):
+            for dir_ in dirs:
+                if os.path.basename(dir_) == 'oat':
+                    shutil.rmtree(os.path.join(root, dir_))
+        shutil.rmtree('tmp')
     else:
         print('I: Skipping modify framework.jar')
         shutil.rmtree('tmp')
