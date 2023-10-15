@@ -232,3 +232,8 @@ for i in ["AospFrameworkResOverlay.apk", "MiuiFrameworkResOverlay.apk", "AospWif
     if base and port and os.path.isfile(base) and os.path.exists(port):
         Yellow(f'正在替换 [{i}]')
         shutil.copy(base, port)
+if os.path.isdir('BASEROM/images/product/etc/displayconfig/'):
+    shutil.rmtree('BASEROM/images/product/etc/displayconfig')
+    shutil.copytree('BASEROM/images/product_bak/etc/displayconfig', 'BASEROM/images/product/etc')
+Yellow("正在替换 displayconfig")
+Yellow("正在替换 device_features")

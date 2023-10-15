@@ -1,9 +1,3 @@
-
-Yellow "正在替换 displayconfig"
-rm -rf BASEROM/images/product/etc/displayconfig/*
-cp -rf BASEROM/images/product_bak/etc/displayconfig/* BASEROM/images/product/etc/displayconfig/
-
-Yellow "正在替换 device_features"
 rm -rf BASEROM/images/product/etc/device_features/*
 cp -rf BASEROM/images/product_bak/etc/device_features/* BASEROM/images/product/etc/device_features/
 

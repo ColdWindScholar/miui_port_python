@@ -20,3 +20,11 @@ def findfile(file, dir_) -> str:
                 return root + os.sep + file
         else:
             return ''
+
+
+def findfolder(dir__, folder_name):
+    for root, dirnames, filenames in os.walk(dir__):
+        for dirname in dirnames:
+            if dirname == folder_name:
+                return os.path.join(root, dirname).replace("\\", '/')
+    return None
