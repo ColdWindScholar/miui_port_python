@@ -28,7 +28,8 @@
 ## 说明
 - 以上均基于小米10S正式版(V14.0.6.0.TGACNXM)测试
 - 联发科未测试
-
+>*Warning*
+>本工具暂未完成开发，请勿使用
 ## 如何使用
 - 在WSL、ubuntu、deepin等Linux下
 ```shell
