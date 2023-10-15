@@ -331,3 +331,13 @@ if os.path.isfile(frameworkjar) and int(port_android_version) >= 13:
         shutil.rmtree('tmp')
 else:
     Yellow('I: Skipping modify framework.jar')
+if os.path.isfile('BASEROM/images/system/system/etc/init/hw/init.rc'):
+    with open('BASEROM/images/system/system/etc/init/hw/init.rc', 'r', encoding='utf-8') as f:
+        data = f.readlines()
+    with open('BASEROM/images/system/system/etc/init/hw/init.rc', 'w', encoding='utf-8') as f:
+        for i in data:
+            if i == 'on boot\n':
+                f.write(i)
+                f.write('chmod 0731 /data/system/theme\n')
+            else:
+                f.write(i)

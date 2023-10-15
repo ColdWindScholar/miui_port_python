@@ -1,8 +1,3 @@
-# 主题防恢复
-if [ -f BASEROM/images/system/system/etc/init/hw/init.rc ];then
-	sed -i '/on boot/a\    chmod 0731 \/data\/system\/theme' BASEROM/images/system/system/etc/init/hw/init.rc
-fi
-
 # 删除多余的App
 rm -rf BASEROM/images/product/app/MSA
 rm -rf BASEROM/images/product/priv-app/MSA
