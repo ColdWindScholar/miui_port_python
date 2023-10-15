@@ -240,9 +240,13 @@ Yellow("正在替换 device_features")
 if os.path.isdir('BASEROM/images/product/etc/displayconfig/'):
     shutil.rmtree('BASEROM/images/product/etc/device_features')
     shutil.copytree('BASEROM/images/product_bak/etc/device_features', 'BASEROM/images/product/etc')
-for d in ["MiuiCamera", "MiSound"]:
+for d in ["MiuiCamera", "MiSound", 'MusicFX']:
     base = findfolder("BASEROM/images/product_bak/", d)
     port = findfolder('BASEROM/images/product/', d)
+    if not base and d == 'MusicFX':
+        base = findfolder('BASEROM/images/system_bak/', d)
+    if not port and d == 'MusicFX':
+        base = findfolder('BASEROM/images/system/', d)
     if base and port and os.path.isdir(base) and os.path.exists(port):
         Yellow(f'正在替换 [{i}]')
         shutil.rmtree(port)

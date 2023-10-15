@@ -1,12 +1,3 @@
-# MusicFX
-baseMusicFX=$(find BASEROM/images/product_bak/ BASEROM/images/system_bak/ -type d -name "MusicFX")
-portMusicFX=$(find BASEROM/images/product/ BASEROM/images/system/ -type d -name "MusicFX")
-if [ -d "${baseMusicFX}" ] && [ -d "${portMusicFX}" ];then
-    Yellow "正在替换 MusicFX"
-    rm -rf ./${portMusicFX}/*
-    cp -rf ./${baseMusicFX}/* ${portMusicFX}/
-fi
-
 # 人脸
 baseMiuiBiometric=$(find BASEROM/images/product_bak/app -type d -name "MiuiBiometric*")
 portMiuiBiometric=$(find BASEROM/images/product/app -type d -name "MiuiBiometric*")
