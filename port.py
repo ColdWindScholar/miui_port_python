@@ -264,4 +264,9 @@ if os.path.isfile('BASEROM/images/system_bak/system/etc/permissions/com.android.
     shutil.copy('BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml', 'BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml')
 if os.path.isfile('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar') and os.path.isfile('BASEROM/images/system/system/framework/com.android.nfc_extras.jar'):
     shutil.copy('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar', 'BASEROM/images/system/system/framework/com.android.nfc_extras.jar')
+frameworkjar = findfile('framework.jar', 'BASEROM/images/system/system')
+if os.path.isfile(frameworkjar) and int(port_android_version) >= 13:
+    Yellow("正在去除安卓应用签名限制")
 
+else:
+    Yellow('I: Skipping modify framework.jar')

@@ -1,5 +1,3 @@
-# 签名验证
-frameworkjar=$(find BASEROM/images/system/system -type f -name framework.jar)
 if [ -f "$frameworkjar" ] && [ ${port_android_version} -ge 13 ];then
 	Yellow "正在去除安卓应用签名限制"
 	rm -rf tmp/framework/
@@ -41,9 +39,6 @@ if [ -f "$frameworkjar" ] && [ ${port_android_version} -ge 13 ];then
 		echo I: Skipping modify framework.jar
 		rm -rf tmp/
 	fi
-else
-	echo I: Skipping modify framework.jar
-fi
 
 
 # 主题防恢复
