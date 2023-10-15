@@ -22,9 +22,12 @@ def findfile(file, dir_) -> str:
             return ''
 
 
-def findfolder(dir__, folder_name):
+def findfolder(dir__, folder_name, mh=0):
     for root, dirnames, filenames in os.walk(dir__):
         for dirname in dirnames:
+            if mh == 1:
+                if folder_name in dirname:
+                    return os.path.join(root, dirname).replace("\\", '/')
             if dirname == folder_name:
                 return os.path.join(root, dirname).replace("\\", '/')
     return None

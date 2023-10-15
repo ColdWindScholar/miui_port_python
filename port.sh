@@ -1,18 +1,3 @@
-# 人脸
-baseMiuiBiometric=$(find BASEROM/images/product_bak/app -type d -name "MiuiBiometric*")
-portMiuiBiometric=$(find BASEROM/images/product/app -type d -name "MiuiBiometric*")
-if [ -d "${baseMiuiBiometric}" ] && [ -d "${portMiuiBiometric}" ];then
-    Yellow "正在替换人脸识别"
-    rm -rf ./${portMiuiBiometric}/*
-    cp -rf ./${baseMiuiBiometric}/* ${portMiuiBiometric}/
-else
-    if [ -d "${baseMiuiBiometric}" ] && [ ! -d "${portMiuiBiometric}" ];then
-        Yellow "Port MiuiBiometric not found, copying..."
-        cp -rf ${baseMiuiBiometric} BASEROM/images/product/app/
-    fi
-fi
-
-
 # 修复NFC
 Yellow "正在修复 NFC"
 cp -rf BASEROM/images/product_bak/pangu/system ./system
