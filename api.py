@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 def getprop(name, path):
@@ -31,3 +32,17 @@ def findfolder(dir__, folder_name, mh=0):
             if dirname == folder_name:
                 return os.path.join(root, dirname).replace("\\", '/')
     return None
+
+
+def copy_folder(source_folder, destination_folder):
+    if not os.path.exists(destination_folder):
+        os.makedirs(destination_folder)
+
+    for item in os.listdir(source_folder):
+        source = os.path.join(source_folder, item)
+        destination = os.path.join(destination_folder, item)
+
+        if os.path.isdir(source):
+            copy_folder(source, destination)
+        else:
+            shutil.copy2(source, destination)

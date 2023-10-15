@@ -1,16 +1,3 @@
-# 修复NFC
-Yellow "正在修复 NFC"
-cp -rf BASEROM/images/product_bak/pangu/system ./system
-
-cp -rf system/* BASEROM/images/system/system/
-rm -rf system/
-if [ -f BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml ] && [ -f BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml ];then
-    cp -rf BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml
-fi
-if [ -f BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar ] && [ -f BASEROM/images/system/system/framework/com.android.nfc_extras.jar ];then
-    cp -rf BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar BASEROM/images/system/system/framework/com.android.nfc_extras.jar
-fi
-
 # 签名验证
 frameworkjar=$(find BASEROM/images/system/system -type f -name framework.jar)
 if [ -f "$frameworkjar" ] && [ ${port_android_version} -ge 13 ];then

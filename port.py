@@ -13,7 +13,7 @@ import re
 import sys
 
 import imgextractor
-from api import getprop, findfile, findfolder
+from api import getprop, findfile, findfolder, copy_folder
 from log import Error, Yellow, Green
 import os
 import utils
@@ -258,4 +258,10 @@ for d in ["MiuiCamera", "MiSound", 'MusicFX', "MiuiBiometric"]:
         shutil.rmtree(port)
         shutil.copytree(base, os.path.dirname(port))
 Yellow("正在修复 NFC")
+if os.path.isdir('BASEROM/images/product_bak/pangu/system'):
+    copy_folder('BASEROM/images/product_bak/pangu/system',  'BASEROM/images/system/')
+if os.path.isfile('BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml') and os.path.isfile('BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml'):
+    shutil.copy('BASEROM/images/system_bak/system/etc/permissions/com.android.nfc_extras.xml', 'BASEROM/images/system/system/etc/permissions/com.android.nfc_extras.xml')
+if os.path.isfile('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar') and os.path.isfile('BASEROM/images/system/system/framework/com.android.nfc_extras.jar'):
+    shutil.copy('BASEROM/images/system_bak/system/framework/com.android.nfc_extras.jar', 'BASEROM/images/system/system/framework/com.android.nfc_extras.jar')
 
